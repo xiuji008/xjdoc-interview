@@ -335,23 +335,31 @@ const GIST_TOKEN = '你的Token（仅gist权限）'
 
 ---
 
-### 2.10 评论系统（Gitalk）
+### 2.10 评论系统（giscus）
 
-基于 GitHub Issues 的评论区。
+基于 GitHub Discussions 的评论区，无需 OAuth App，无 token 泄露风险。
 
-**效果：** 文章底部展示 GitHub Issue 风格的评论区
+**效果：** 文章底部展示 GitHub 风格的评论区，每篇文章独立讨论
 
-**启用配置：**
+**启用步骤：**
+
+1. 仓库 Settings → Features → 勾选 **Discussions**
+2. 访问 [giscus App](https://github.com/apps/giscus) → Install → 选本仓库
+3. 访问 [giscus.app](https://giscus.app/zh-CN) 填入 `xiuji008/xjdoc-interview` 获取 ID
+4. 将 `repoId`、`categoryId` 填入：
 
 ```js
 // src/components/Comments.jsx
-const GITALK_CONFIG = {
-  clientID: 'OAuth App Client ID',
-  clientSecret: 'OAuth App Secret',
-  owner: '你的GitHub用户名',
-  admin: ['你的GitHub用户名'],
+const GISCUS_CONFIG = {
+  repo: 'xiuji008/xjdoc-interview',
+  repoId: 'R_kgDOSoPcRg',
+  category: 'Announcements',
+  categoryId: 'DIC_kwDOSoPcRs4C94wU',
 }
 ```
+
+- 使用 `data-mapping="specific"` + `data-term={slug}` 按文章独立分页
+- 支持 GitHub Reactions（👍❤️🎉 等）
 
 ---
 
@@ -388,7 +396,7 @@ xjdoc-interview/
 │   │   ├── ChartBlock.jsx          # Recharts 图表渲染
 │   │   ├── CodeBlock (内联)        # 代码块 + 复制按钮
 │   │   ├── PageViews.jsx           # 阅读量统计
-│   │   ├── Comments.jsx            # Gitalk 评论
+│   │   ├── Comments.jsx            # giscus 评论
 │   │   └── ErrorBoundary.jsx       # 错误边界
 │   ├── hooks/
 │   │   ├── useDocManifest.js       # 加载文档清单
