@@ -39,6 +39,7 @@ export default function Comments({ slug, title }) {
         repo: GITALK_CONFIG.repo,
         owner: GITALK_CONFIG.owner,
         admin: GITALK_CONFIG.admin,
+        proxy: 'https://corsproxy.io/?https://github.com/login/oauth/access_token',
         id: slug.replace(/[^a-zA-Z0-9]/g, '-').slice(0, 50),
         title: title || slug,
         labels: ['comment'],
