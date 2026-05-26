@@ -1,7 +1,9 @@
+import PageViews from './PageViews'
+
 /**
  * 文章头部的 Front Matter 展示卡片
  */
-export default function ArticleHeader({ frontMatter }) {
+export default function ArticleHeader({ frontMatter, slug }) {
   const { title, emoji, category, tags, description, created, updated } =
     frontMatter
 
@@ -13,6 +15,7 @@ export default function ArticleHeader({ frontMatter }) {
       </div>
 
       <div className="article-header-meta">
+        <PageViews slug={slug} />
         {category && (
           <span className="article-header-meta-item">
             📂 {category}

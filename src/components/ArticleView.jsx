@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useDocContent } from '../hooks/useDocContent'
 import ArticleHeader from './ArticleHeader'
 import MarkdownRenderer from './MarkdownRenderer'
-import PageViews from './PageViews'
 import Comments from './Comments'
 import ErrorBoundary from './ErrorBoundary'
 
@@ -44,7 +43,7 @@ export default function ArticleView({ slug, tree }) {
     return (
       <article className="article-container">
         {frontMatter && Object.keys(frontMatter).length > 0 && (
-          <ArticleHeader frontMatter={frontMatter} />
+          <ArticleHeader frontMatter={frontMatter} slug={slug} />
         )}
         <div className="article-not-found">
           <div className="loading-spinner" />
@@ -59,7 +58,7 @@ export default function ArticleView({ slug, tree }) {
   return (
     <article className="article-container">
       {frontMatter && Object.keys(frontMatter).length > 0 && (
-        <ArticleHeader frontMatter={frontMatter} />
+        <ArticleHeader frontMatter={frontMatter} slug={slug} />
       )}
 
       <ErrorBoundary>
@@ -68,9 +67,7 @@ export default function ArticleView({ slug, tree }) {
         </div>
       </ErrorBoundary>
 
-      <div className="article-footer">
-        <PageViews slug={slug} />
-      </div>
+      <div className="article-footer" />
 
       <Comments slug={slug} title={title} />
     </article>
