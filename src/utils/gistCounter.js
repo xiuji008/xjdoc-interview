@@ -18,11 +18,21 @@ if (import.meta.env.DEV) {
 }
 
 const GIST_API = `https://api.github.com/gists/${GIST_ID}`
+const AUTH_HEADER = { Authorization: `token ${GIST_TOKEN}` }
+
+let gistFilename = null
+
+async function getFilename() {
+  if (gistFilename) return gistFilename
+  const res = await fetch(GIST_API, { headers: AUTH_HEADER })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  const data = await res.json()
+  gistFilename = Object.keys(data.files)[0]
+  return gistFilename
+}
 
 async function fetchCounts() {
-  const res = await fetch(GIST_API, {
-    headers: { Authorization: `token ${GIST_TOKEN}` },
-  })
+  const res = await fetch(GIST_API, { headers: AUTH_HEADER })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   const data = await res.json()
   const filename = Object.keys(data.files)[0]
@@ -30,12 +40,11 @@ async function fetchCounts() {
 }
 
 async function saveCounts(counts) {
-  const data = await fetch(GIST_API).then((r) => r.json())
-  const filename = Object.keys(data.files)[0]
+  const filename = await getFilename()
   const res = await fetch(GIST_API, {
     method: 'PATCH',
     headers: {
-      Authorization: `token ${GIST_TOKEN}`,
+      ...AUTH_HEADER,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -43,7 +52,6 @@ async function saveCounts(counts) {
     }),
   })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
-  return true
 }
 
 export function isCounterConfigured() {
