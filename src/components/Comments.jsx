@@ -1,55 +1,53 @@
 /**
- * Gitalk 评论组件
+ * Giscus 评论组件
  *
- * 使用前需要在 GitHub 上创建 OAuth App：
- * 1. 访问 https://github.com/settings/developers → New OAuth App
- * 2. Homepage URL 填 GitHub Pages 地址 (如 https://xj.github.io/xjdoc-interview/)
- * 3. Authorization callback URL 同上
- * 4. 获取 Client ID 填入下方配置
+ * 使用前需要：
+ * 1. 仓库 Settings → 启用 Discussions
+ * 2. 访问 https://github.com/apps/giscus → 安装到本仓库
+ * 3. 将下方 repoId 和 categoryId 填入配置
+ *    （访问 https://giscus.app/zh-CN 填入仓库信息自动获取）
  */
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 // ===== 请修改这里的配置 =====
-const GITALK_CONFIG = {
-  clientID: 'Ov23lioYr8Dz8h2TItNS',
-  repo: 'xjdoc-interview',
-  owner: 'xiuji008',
-  admin: ['xiuji008'],
+const GISCUS_CONFIG = {
+  repo: 'xiuji008/xjdoc-interview',
+  repoId: 'YOUR_REPO_ID',
+  category: 'General',
+  categoryId: 'YOUR_CATEGORY_ID',
 }
 // ==========================
 
 export default function Comments({ slug, title }) {
   const containerRef = useRef(null)
-  const [configured, setConfigured] = useState(false)
 
-  useEffect(() => {
-    if (GITALK_CONFIG.clientID !== 'YOUR_GITHUB_CLIENT_ID') {
-      setConfigured(true)
-    }
-  }, [])
+  const configured = GISCUS_CONFIG.repoId !== 'YOUR_REPO_ID'
 
   useEffect(() => {
     if (!configured || !slug || !containerRef.current) return
 
-    import('gitalk/dist/gitalk.css')
-    import('gitalk').then(({ default: Gitalk }) => {
-      const gitalk = new Gitalk({
-        clientID: GITALK_CONFIG.clientID,
-        repo: GITALK_CONFIG.repo,
-        owner: GITALK_CONFIG.owner,
-        admin: GITALK_CONFIG.admin,
-        proxy: 'https://corsproxy.io/?https://github.com/login/oauth/access_token',
-        id: slug.replace(/[^a-zA-Z0-9]/g, '-').slice(0, 50),
-        title: title || slug,
-        labels: ['comment'],
-        distractionFreeMode: false,
-      })
+    // 清除旧内容
+    containerRef.current.innerHTML = ''
 
-      containerRef.current.innerHTML = ''
-      gitalk.render(containerRef.current)
-    })
-  }, [configured, slug, title])
+    const script = document.createElement('script')
+    script.src = 'https://giscus.app/client.js'
+    script.setAttribute('data-repo', GISCUS_CONFIG.repo)
+    script.setAttribute('data-repo-id', GISCUS_CONFIG.repoId)
+    script.setAttribute('data-category', GISCUS_CONFIG.category)
+    script.setAttribute('data-category-id', GISCUS_CONFIG.categoryId)
+    script.setAttribute('data-mapping', 'specific')
+    script.setAttribute('data-term', slug)
+    script.setAttribute('data-reactions-enabled', '1')
+    script.setAttribute('data-emit-metadata', '0')
+    script.setAttribute('data-input-position', 'bottom')
+    script.setAttribute('data-theme', 'preferred_color_scheme')
+    script.setAttribute('data-lang', 'zh-CN')
+    script.setAttribute('crossorigin', 'anonymous')
+    script.async = true
+
+    containerRef.current.appendChild(script)
+  }, [configured, slug])
 
   if (!configured) {
     return (
@@ -57,20 +55,17 @@ export default function Comments({ slug, title }) {
         <div className="comments-placeholder">
           <h3>💬 评论区</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: 14, lineHeight: 1.8 }}>
-            配置 Gitalk 后启用评论功能<br />
-            <code>src/components/Comments.jsx</code> → 填写 clientID / owner / admin
+            配置 Giscus 后启用评论功能
           </p>
           <details style={{ marginTop: 8 }}>
             <summary style={{ fontSize: 12, color: 'var(--accent-color)', cursor: 'pointer' }}>
               查看配置步骤
             </summary>
             <ol style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 8, paddingLeft: 20, lineHeight: 2 }}>
-              <li>访问 <a href="https://github.com/settings/developers" target="_blank" rel="noopener noreferrer">GitHub Developer Settings</a></li>
-              <li>点击 <strong>New OAuth App</strong></li>
-              <li>Homepage URL 填你的 GitHub Pages 地址</li>
-              <li>Authorization callback URL 填同样的地址</li>
-              <li>获取 Client ID</li>
-              <li>在 <code>src/components/Comments.jsx</code> 中填入 clientID</li>
+              <li>仓库 Settings → 勾选 <strong>Discussions</strong></li>
+              <li>访问 <a href="https://github.com/apps/giscus" target="_blank" rel="noopener noreferrer">giscus GitHub App</a> 安装到本仓库</li>
+              <li>访问 <a href="https://giscus.app/zh-CN" target="_blank" rel="noopener noreferrer">giscus.app</a> 填入仓库信息获取 repoId 和 categoryId</li>
+              <li>在 <code>src/components/Comments.jsx</code> 中填入</li>
             </ol>
           </details>
         </div>
@@ -78,5 +73,5 @@ export default function Comments({ slug, title }) {
     )
   }
 
-  return <div className="article-comments" ref={containerRef} />
+  return <div className="article-comments giscus" ref={containerRef} />
 }
