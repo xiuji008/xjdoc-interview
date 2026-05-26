@@ -2,21 +2,14 @@
  * GitHub Gist 阅读量计数器
  *
  * 数据存储在 GitHub Gist 中，通过 Gist API 读写。
- * Token 仅有 gist 权限，不通向代码仓库，风险可控。
+ * Token 仅有 gist 权限，通过 Vite 环境变量注入，不写入源码。
  *
- * 配置步骤：
- * 1. 打开 https://gist.github.com → 新建 Secret Gist
- *    文件名：counts.json，内容：{}
- *    创建后复制 URL 中的 GIST_ID（https://gist.github.com/xxx/{GIST_ID}）
- *
- * 2. 打开 https://github.com/settings/tokens
- *    → Generate new token (classic) → 仅勾选 gist 权限 → 生成并复制 Token
- *
- * 3. 将 GIST_ID 和 Token 填入下方
+ * 本地开发：创建 .env 文件，参考 .env.example
+ * 生产部署：在 GitHub Repo Secrets 中设置 VITE_GIST_ID 和 VITE_GIST_TOKEN
  */
 
-const GIST_ID = ''
-const GIST_TOKEN = ''
+const GIST_ID = import.meta.env.VITE_GIST_ID || ''
+const GIST_TOKEN = import.meta.env.VITE_GIST_TOKEN || ''
 
 const GIST_API = `https://api.github.com/gists/${GIST_ID}`
 

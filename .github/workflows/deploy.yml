@@ -35,6 +35,9 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          VITE_GIST_ID: ${{ secrets.VITE_GIST_ID }}
+          VITE_GIST_TOKEN: ${{ secrets.VITE_GIST_TOKEN }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

@@ -323,15 +323,31 @@ public class Hello {
 
 基于 GitHub Gist API 的跨设备阅读量计数器。
 
-**效果：** 文章底部显示 👁️ 4（每次刷新 +4）
+**效果：** 文章底部显示 👁️ N（每次刷新 +4）
 
-**启用配置：**
+**启用步骤：**
+
+**① 创建 Gist**
+访问 [gist.github.com](https://gist.github.com) → 右上角 **+** → New gist：
+- 文件名：`counts.json`
+- 内容：`{}`
+- 选 **Create secret gist**
+- 创建后 URL 形如 `https://gist.github.com/xiuji008/abc123`，复制 Gist ID（最后一段 `abc123`）
+
+**② 生成 Token**
+访问 [GitHub Settings → Tokens (classic)](https://github.com/settings/tokens) → Generate new token：
+- 只勾选 **gist** 权限
+- 生成后复制 Token
+
+**③ 填入配置**
 
 ```js
 // src/utils/gistCounter.js
 const GIST_ID = '你的GistID'
-const GIST_TOKEN = '你的Token（仅gist权限）'
+const GIST_TOKEN = 'ghp_xxxx （仅 gist 权限，不影响代码仓库）'
 ```
+
+> ⚠️ Token 会打包到前端 JS，务必只勾选 `gist` 权限，定期更换更安全。
 
 ---
 
