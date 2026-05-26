@@ -1,0 +1,97 @@
+{
+  "tree": {
+    "name": "docs",
+    "type": "directory",
+    "children": [
+      {
+        "name": "CONTRIBUTING",
+        "type": "file",
+        "slug": "CONTRIBUTING",
+        "title": "贡献指南",
+        "emoji": "🤝",
+        "tags": [
+          "贡献",
+          "指南"
+        ],
+        "category": "项目",
+        "description": "如何向本知识库贡献内容",
+        "created": "",
+        "updated": ""
+      },
+      {
+        "name": "README",
+        "type": "file",
+        "slug": "README",
+        "title": "面试知识库 README",
+        "emoji": "📖",
+        "tags": [
+          "说明",
+          "架构",
+          "功能"
+        ],
+        "category": "项目",
+        "description": "面试知识库系统完整说明，涵盖所有功能点、技术架构和配置方式",
+        "created": "",
+        "updated": ""
+      },
+      {
+        "name": "ai",
+        "type": "directory",
+        "children": [
+          {
+            "name": "skills",
+            "type": "directory",
+            "children": [
+              {
+                "name": "机器学习基础",
+                "type": "file",
+                "slug": "ai/skills/机器学习基础",
+                "title": "机器学习基础概念",
+                "emoji": "🤖",
+                "tags": [
+                  "AI",
+                  "机器学习",
+                  "深度学习",
+                  "面试"
+                ],
+                "category": "AI/基础",
+                "description": "机器学习核心概念速查，包含监督学习、无监督学习、评估指标等",
+                "created": "2024-02-10T00:00:00.000Z",
+                "updated": "2024-03-15T00:00:00.000Z"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "java",
+        "type": "directory",
+        "children": [
+          {
+            "name": "java基础",
+            "type": "directory",
+            "children": [
+              {
+                "name": "collection",
+                "type": "file",
+                "slug": "java/java基础/collection",
+                "title": "Java集合框架详解",
+                "emoji": "📚",
+                "tags": [
+                  "Java",
+                  "集合",
+                  "面试",
+                  "基础"
+                ],
+                "category": "Java/Java基础",
+                "description": "全面梳理 Java 集合框架的核心知识点，包括 List、Set、Map 的底层实现与对比",
+                "created": "2024-01-15T00:00:00.000Z",
+                "updated": "2024-03-20T00:00:00.000Z"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
