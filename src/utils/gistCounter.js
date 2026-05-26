@@ -11,10 +11,18 @@
 const GIST_ID = import.meta.env.VITE_GIST_ID || ''
 const GIST_TOKEN = import.meta.env.VITE_GIST_TOKEN || ''
 
+// 调试日志：确认环境变量是否被正确注入
+if (import.meta.env.DEV) {
+  console.log('[GistCounter] GIST_ID:', GIST_ID ? '已设置' : '未设置')
+  console.log('[GistCounter] GIST_TOKEN:', GIST_TOKEN ? '已设置' : '未设置')
+}
+
 const GIST_API = `https://api.github.com/gists/${GIST_ID}`
 
 async function fetchCounts() {
-  const res = await fetch(GIST_API)
+  const res = await fetch(GIST_API, {
+    headers: { Authorization: `token ${GIST_TOKEN}` },
+  })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   const data = await res.json()
   const filename = Object.keys(data.files)[0]
