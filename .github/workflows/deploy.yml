@@ -36,6 +36,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Verify secrets
+        run: |
+          if [ -n "$VITE_GIST_ID" ]; then echo "VITE_GIST_ID: OK"; else echo "VITE_GIST_ID: MISSING"; fi
+          if [ -n "$VITE_GIST_TOKEN" ]; then echo "VITE_GIST_TOKEN: OK"; else echo "VITE_GIST_TOKEN: MISSING"; fi
+
       - name: Build project
         run: npm run build
 
