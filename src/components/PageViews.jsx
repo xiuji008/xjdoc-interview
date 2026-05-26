@@ -8,7 +8,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { addPageView, isCounterConfigured } from '../utils/gistCounter'
 
-const STEP = 4
+const STEP = 1
 
 export default function PageViews({ slug }) {
   const [count, setCount] = useState(null)
