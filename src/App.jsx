@@ -36,7 +36,8 @@ export default function App() {
         >
           {sidebarOpen ? '◀' : '▶'}
         </button>
-        <h1 className="app-title">📖 面试知识库</h1>
+        <img className="app-logo" src="avatar.png" alt="Logo" />
+        <h1 className="app-title">面试知识库</h1>
       </header>
 
       <div className="app-body">

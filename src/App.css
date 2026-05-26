@@ -84,6 +84,13 @@ a:hover {
   color: var(--text-primary);
 }
 
+.app-logo {
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .app-body {
   display: flex;
   flex: 1;
