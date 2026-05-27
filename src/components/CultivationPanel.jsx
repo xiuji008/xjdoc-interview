@@ -106,7 +106,7 @@ export default function CultivationPanel({ tree }) {
 
       <div className={`cultivation-panel ${expanded ? 'expanded' : 'collapsed'}`}>
         <div className="cultivation-badge"
-          style={{ '--realm-color': realm.color, '--realm-glow': realm.glowColor, '--realm-bg': `linear-gradient(135deg, ${realm.colorDark}, #000)` }}
+          style={{ '--realm-color': realm.color, '--realm-glow': realm.glowColor, '--realm-bg': `linear-gradient(135deg, ${realm.color}15, #f8faff)` }}
           onClick={() => setExpanded(!expanded)}
         >
           <div className="badge-pattern-bg" />
@@ -133,10 +133,10 @@ export default function CultivationPanel({ tree }) {
                 <span className="score-label">修为</span>
               </div>
               {stage && !isGod && (
-                <div className="stage-bar">
+                <div className={`stage-bar ${realm.stages.length > 6 ? 'stage-bar-scroll' : ''}`}>
                   {realm.stages.map((s, i) => (
-                    <div key={i} className={`stage-segment ${s.index === stage.index ? 'active' : ''}`}
-                      style={s.index === stage.index ? { background: realm.color, boxShadow: `0 0 8px ${realm.color}` } : {}}>
+                    <div key={i} className={`stage-segment ${realm.stages.length > 6 ? 'stage-segment-sm' : ''} ${s.index === stage.index ? 'active' : ''}`}
+                      style={s.index === stage.index ? { background: realm.color, boxShadow: `0 2px 8px ${realm.glowColor}` } : {}}>
                       <span className="stage-seg-label">{s.name}</span>
                     </div>
                   ))}

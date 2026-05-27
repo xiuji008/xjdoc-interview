@@ -77,10 +77,10 @@ export default function CultivationTimeline({ history, currentRealm, currentStag
                 {/* 内容卡片 - 点击回放动画 */}
                 <div
                   className="timeline-card"
-                  style={{
-                    borderColor: hoveredId === key ? color : 'transparent',
-                    boxShadow: hoveredId === key ? `0 0 20px ${color}40` : 'none',
-                  }}
+                  style={hoveredId === key ? {
+                    borderColor: color,
+                    boxShadow: `0 0 20px ${color}40`,
+                  } : {}}
                   onClick={() => onReplay(entry)}
                   title="点击回放突破动画"
                 >
@@ -93,7 +93,7 @@ export default function CultivationTimeline({ history, currentRealm, currentStag
                     {isBreakthrough && <span className="timeline-badge" style={{ background: color }}>突破</span>}
                   </div>
                   <div className="timeline-card-main">
-                    <span className="timeline-old" style={isBreakthrough ? { color: 'rgba(255,255,255,0.4)', textDecoration: 'line-through' } : {}}>
+                    <span className="timeline-old" style={isBreakthrough ? { textDecoration: 'line-through' } : {}}>
                       {entry.prevRealm}
                       {entry.prevStage ? ` · ${entry.prevStage}` : ''}
                     </span>
