@@ -1,22 +1,26 @@
 import { useState } from 'react'
-import { Routes, Route, Navigate, useParams } from 'react-router-dom'
+import { Routes, Route, Navigate, useParams, useNavigate } from 'react-router-dom'
 import Sidebar from './components/Sidebar'
 import ArticleView from './components/ArticleView'
 import EmojiPicker from './components/EmojiPicker'
 import AboutModal from './components/AboutModal'
+import CultivationPanel from './components/CultivationPanel'
+import CultivationManual from './components/CultivationManual'
 import { useDocManifest } from './hooks/useDocManifest'
 
 export default function App() {
+  const navigate = useNavigate()
   const { manifest, loading, error } = useDocManifest()
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [emojiOpen, setEmojiOpen] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
+  const [manualOpen, setManualOpen] = useState(false)
 
   if (loading) {
     return (
       <div className="app-loading">
         <div className="loading-spinner" />
-        <p>加载知识库中...</p>
+        <p>汲取天地灵气中...</p>
       </div>
     )
   }
@@ -24,7 +28,7 @@ export default function App() {
   if (error) {
     return (
       <div className="app-error">
-        <h2>加载失败</h2>
+        <h2>灵气暴乱，加载失败</h2>
         <p>{error}</p>
       </div>
     )
@@ -40,9 +44,20 @@ export default function App() {
         >
           {sidebarOpen ? '◀' : '▶'}
         </button>
-        <img className="app-logo" src="avatar.png" alt="Logo" />
-        <h1 className="app-title">面试知识库</h1>
+        <img className="app-logo" src="avatar.png" alt="Logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }} />
+        <h1 className="app-title" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+          <span className="title-icon">⚡</span>
+          全栈成神之路
+          <span className="title-subtitle">· 面试知识库</span>
+        </h1>
         <div className="header-actions">
+          <button
+            className="header-btn"
+            onClick={() => setManualOpen(true)}
+            title="修炼说明书"
+          >
+            📜 <span className="header-btn-label">修炼指南</span>
+          </button>
           <button
             className="header-btn"
             onClick={() => setEmojiOpen(true)}
@@ -74,6 +89,7 @@ export default function App() {
       </header>
       <EmojiPicker isOpen={emojiOpen} onClose={() => setEmojiOpen(false)} />
       <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} />
+      <CultivationManual isOpen={manualOpen} onClose={() => setManualOpen(false)} />
 
       <div className="app-body">
         <aside className={`app-sidebar ${sidebarOpen ? 'open' : 'closed'}`}>
@@ -86,11 +102,29 @@ export default function App() {
               path="/"
               element={
                 <div className="welcome-page">
-                  <h1>📖 面试知识库</h1>
-                  <p>从左侧文档树选择一篇文章开始阅读</p>
-                  <div className="welcome-stats">
-                    <p>📁 总计 {countAllFiles(manifest?.tree)} 篇文档</p>
-                    <p>💡 左侧边栏可按关键字搜索</p>
+                  <div className="welcome-cultivation">
+                    <CultivationPanel tree={manifest?.tree} />
+                  </div>
+                  <div className="welcome-info">
+                    <h1 className="welcome-title">📖 全栈成神之路</h1>
+                    <p className="welcome-subtitle">从左侧文档树选择一篇文章，汲取知识灵力</p>
+                    <div className="welcome-stats">
+                      <div className="welcome-stat-card">
+                        <span className="welcome-stat-icon">📄</span>
+                        <span className="welcome-stat-value">{countAllFiles(manifest?.tree)}</span>
+                        <span className="welcome-stat-label">典籍</span>
+                      </div>
+                      <div className="welcome-stat-card">
+                        <span className="welcome-stat-icon">💡</span>
+                        <span className="welcome-stat-value">搜索</span>
+                        <span className="welcome-stat-label">检索功法</span>
+                      </div>
+                      <div className="welcome-stat-card">
+                        <span className="welcome-stat-icon">🚀</span>
+                        <span className="welcome-stat-value">修炼</span>
+                        <span className="welcome-stat-label">不断精进</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               }

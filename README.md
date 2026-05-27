@@ -2,7 +2,7 @@
   <img src="public/logos/blog-xj.svg" width="64" height="64" alt="Logo" />
 </p>
 
-<h1 align="center">📖 面试知识库</h1>
+<h1 align="center">⚡ 全栈成神之路 · 📖 面试知识库</h1>
 
 <p align="center">
   <strong>持续更新的前端/全栈面试知识体系</strong>
@@ -44,14 +44,13 @@ npm run preview
 
 ```
 xjdoc-interview/
+├── CHANGELOG.md                 # 项目更新日志
 ├── docs/                        # 文档目录（Markdown 源文件）
 │   ├── ai/                      # AI / 机器学习
 │   ├── css/                     # CSS 相关知识
-│   ├── engineering/             # 工程化 / 工具链
-│   ├── framework/               # 框架（React 等）
-│   ├── html/                    # HTML 知识
-│   ├── javascript/              # JavaScript / TypeScript
-│   └── skills/                  # 通用技能
+│   ├── java/                    # Java 后端
+│   ├── 修炼指南.md              # 修仙系统说明书
+│   └── 更新日志.md              # 知识库内容更新记录
 ├── public/                      # 静态资源
 │   ├── logos/                   # 各平台 logo 图标
 │   ├── avatar.png               # 项目图标
@@ -65,8 +64,12 @@ xjdoc-interview/
 │   │   ├── ArticleView.jsx      # 文章阅读页面
 │   │   ├── ChartBlock.jsx       # 数据图表（recharts）
 │   │   ├── Comments.jsx         # Giscus 评论组件
+│   │   ├── CultivationManual.jsx # 修炼说明书弹窗
+│   │   ├── CultivationPanel.jsx # 修仙境界面板
+│   │   ├── CultivationTimeline.jsx # 成神时间线
 │   │   ├── EmojiPicker.jsx      # 常用 Emoji 选择器
 │   │   ├── ErrorBoundary.jsx    # React 错误边界
+│   │   ├── LevelUpAnimation.jsx # 突破升级动画
 │   │   ├── MarkdownRenderer.jsx # Markdown 渲染引擎
 │   │   ├── MermaidBlock.jsx     # Mermaid 图表渲染
 │   │   ├── PageViews.jsx        # 阅读量统计
@@ -75,7 +78,9 @@ xjdoc-interview/
 │   │   ├── useDocContent.js     # Markdown 内容加载
 │   │   └── useDocManifest.js    # 文档清单加载
 │   ├── utils/
-│   │   └── gistCounter.js       # 阅读量计数 API
+│   │   ├── cultivationEngine.js # 修仙引擎（修为计算 + 境界判定）
+│   │   ├── gistCounter.js       # 阅读量计数 API
+│   │   └── gistCultivation.js   # 修仙历程 Gist 持久化
 │   ├── App.jsx                  # 根组件（路由 + 布局）
 │   ├── App.css                  # 全局样式
 │   └── main.jsx                 # 入口文件
@@ -99,6 +104,35 @@ xjdoc-interview/
 | 👁️ **阅读量统计** | GitHub Gist + Cloudflare Worker |
 | 😊 **Emoji 选择器** | 常用 Emoji 快捷复制 |
 | 👨‍💻 **关于作者** | 作者信息与各平台链接 |
+| ⚡ **修仙成神系统** | 修为值计算、境界晋级、道纹徽章、突破动画、历程时间线 |
+
+## ⚡ 修仙成神系统
+
+知识库内置一套完整的修仙晋级体系，将学习过程可视化：
+
+**修为值公式：**
+```
+修为 = 文档数 × 0.3 + 顶级分类 × 0.2 + 子分类 × 0.1 + 标签数 × 0.05
+```
+
+**境界翻倍规则：**
+
+| 大境界 | 修为范围 | 小层级 |
+|--------|---------|--------|
+| 练气期 | 0 ~ 19 | 灵气感知 → 半步筑基（13层） |
+| 筑基期 | 20 ~ 59 | 初期 → 大圆满 |
+| 金丹期 | 60 ~ 139 | 初期 → 大圆满 |
+| 元婴期 | 140 ~ 299 | 初期 → 大圆满 |
+| 化神期 | 300 ~ 619 | 初期 → 大圆满 |
+| 炼虚期 | 620 ~ 1,259 | 初期 → 大圆满 |
+| 合体期 | 1,260 ~ 2,539 | 初期 → 大圆满 |
+| 大乘期 | 2,540 ~ 5,099 | 初期 → 半步渡劫 |
+| 渡劫期 | 5,100 ~ 10,219 | 第一波天劫 → 最终天劫 |
+| **飞升成神** | **10,220+** | 无上限 |
+
+境界越高、分类体系越完善、标签越丰富，成长越快。每篇文档、每个分类都在为「成神」积累修为。
+
+> 📖 详见 [`docs/修炼指南.md`](docs/修炼指南.md)
 
 ## 🧪 技术栈
 
@@ -264,6 +298,10 @@ description: 文章简介
 
 - **面试知识库**: https://xiuji008.github.io/xjdoc-interview/
 - **作者博客**: https://xiuji008.github.io/
+
+## 📋 更新日志
+
+详见 [CHANGELOG.md](CHANGELOG.md) 和 [docs/更新日志.md](docs/更新日志.md)。
 
 ## 🤝 贡献
 

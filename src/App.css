@@ -447,26 +447,92 @@ a:hover {
 .welcome-page {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
   height: 100%;
-  text-align: center;
-  color: var(--text-secondary);
+  gap: 24px;
+  overflow-y: auto;
 }
 
-.welcome-page h1 {
-  font-size: 32px;
-  color: var(--text-primary);
-  margin-bottom: 12px;
+.welcome-cultivation {
+  flex-shrink: 0;
+}
+
+.welcome-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  flex: 1;
+}
+
+.welcome-title {
+  font-size: 28px;
+  background: linear-gradient(135deg, #4361ee, #7209b7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+.welcome-subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 24px;
 }
 
 .welcome-stats {
-  margin-top: 24px;
-  padding: 16px 32px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.welcome-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 24px;
   background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
-  font-size: 14px;
-  line-height: 2;
+  min-width: 100px;
+  transition: all 0.2s;
+}
+
+.welcome-stat-card:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.welcome-stat-icon {
+  font-size: 24px;
+}
+
+.welcome-stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.welcome-stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ===== Header Title ===== */
+.title-icon {
+  font-size: 16px;
+  vertical-align: middle;
+}
+
+.title-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
 /* ===== Loading & Error ===== */
@@ -638,6 +704,19 @@ a:hover {
 
 .article-comments .gt-container .gt-comment-content {
   background: var(--bg-primary);
+}
+
+/* Giscus 宽度修复 */
+.giscus,
+.giscus-frame,
+.giscus-frame-wrapper,
+.giscus iframe {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.giscus {
+  min-height: 400px;
 }
 
 /* ===== Header Actions ===== */
@@ -993,6 +1072,1097 @@ a:hover {
   }
 }
 
+/* ===== Cultivation Panel ===== */
+.cultivation-panel {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  background: linear-gradient(145deg, #0a0a18 0%, #0d0d1a 50%, #0a0a18 100%);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
+  transition: all 0.3s ease;
+  position: relative;
+}
+.cultivation-panel::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 21px;
+  padding: 1px;
+  background: conic-gradient(from 0deg at 50% 50%, transparent, var(--realm-color, #4FC3F7), transparent, transparent, var(--realm-color, #4FC3F7), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  animation: borderRotate 4s linear infinite, borderFadeIn 2s ease 0.5s forwards;
+  pointer-events: none;
+}
+@keyframes borderRotate {
+  to { transform: rotate(360deg); }
+}
+@keyframes borderFadeIn {
+  to { opacity: 0.6; }
+}
+.cultivation-panel.collapsed { max-width: 360px; }
+
+/* ===== 道纹徽章头部 ===== */
+.cultivation-badge {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 24px 24px 20px;
+  cursor: pointer;
+  overflow: hidden;
+  min-height: 100px;
+}
+.badge-pattern-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background-image:
+    radial-gradient(circle at 20% 40%, var(--realm-color) 0%, transparent 50%),
+    radial-gradient(circle at 80% 60%, var(--realm-color) 0%, transparent 40%),
+    repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(255,255,255,0.02) 30px, rgba(255,255,255,0.02) 31px);
+  pointer-events: none;
+}
+.badge-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 35% 50%, var(--realm-glow) 0%, transparent 60%);
+  opacity: 0.3;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.5; }
+}
+
+.badge-dao-area {
+  z-index: 1;
+  flex-shrink: 0;
+  width: 72px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.02);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+}
+.badge-dao-area::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 16px;
+  background: radial-gradient(ellipse at center, var(--realm-glow), transparent 70%);
+  opacity: 0.15;
+  animation: daobgPulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes daobgPulse {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.25; }
+}
+
+/* ===== 道纹系统 ===== */
+.dao-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 68px;
+  position: relative;
+  z-index: 1;
+}
+.dao-mark-lg { width: 80px; height: 90px; }
+
+/* 灵纹 - 斜线 */
+.dao-line-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  position: relative;
+}
+.dao-line {
+  width: 42px; height: 5px;
+  background: linear-gradient(90deg, transparent, var(--dao-color, #4FC3F7), var(--dao-color, #4FC3F7), transparent);
+  border-radius: 3px;
+  transform: rotate(8deg);
+  box-shadow: 0 0 12px var(--dao-color, #4FC3F7), 0 0 24px var(--dao-color);
+  opacity: 0.9;
+}
+.dao-line-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse, var(--dao-color) 0%, transparent 70%);
+  opacity: 0.3;
+  animation: daoPulse 2s ease-in-out infinite;
+}
+@keyframes daoPulse {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+/* 菱形丹纹 */
+.dao-diamond {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dao-diamond-inner {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--dao-color), transparent 50%);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  box-shadow: 0 0 20px var(--dao-color, #FFD700), 0 0 40px var(--dao-color);
+  animation: diamondSpin 4s linear infinite;
+  position: relative;
+}
+.dao-diamond-inner::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: var(--dao-color);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  opacity: 0.2;
+}
+@keyframes diamondSpin {
+  to { transform: rotate(360deg); }
+}
+.dao-diamond-sm {
+  width: 26px; height: 26px;
+  background: linear-gradient(135deg, var(--dao-color), transparent 50%);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  box-shadow: 0 0 12px var(--dao-color);
+  animation: diamondSpin 6s linear infinite;
+  position: relative;
+}
+.dao-diamond-sm::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: var(--dao-color);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  opacity: 0.15;
+}
+
+/* 菱形+星星 */
+.dao-diamond-star {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.dao-star {
+  display: inline-block;
+  width: 12px; height: 12px;
+  background: var(--dao-color, #fff);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  box-shadow: 0 0 10px var(--dao-color);
+  animation: starTwinkle 1.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px var(--dao-color));
+}
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.5; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* 双星连接 */
+.dao-star-pair {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.dao-star-lg {
+  display: inline-block;
+  width: 20px; height: 20px;
+  background: var(--dao-color, #fff);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  box-shadow: 0 0 12px var(--dao-color);
+  animation: starTwinkle 1.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px var(--dao-color));
+}
+.dao-bar-connector {
+  width: 18px; height: 4px;
+  background: linear-gradient(90deg, transparent, var(--dao-color), transparent);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--dao-color);
+  animation: connectorFlow 1.5s ease-in-out infinite;
+}
+@keyframes connectorFlow {
+  0%, 100% { opacity: 0.3; transform: scaleX(0.8); }
+  50% { opacity: 0.9; transform: scaleX(1.1); }
+}
+
+/* 三星阵列 */
+.dao-star-array {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.dao-star-array .dao-star-lg {
+  width: 14px; height: 14px;
+}
+.dao-array-base {
+  width: 36px; height: 4px;
+  background: linear-gradient(90deg, transparent, var(--dao-color), transparent);
+  border-radius: 2px;
+  opacity: 0.6;
+  box-shadow: 0 0 8px var(--dao-color);
+}
+
+/* 三星+闪电 */
+.dao-bolt-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.dao-bolt-group .dao-star-lg {
+  width: 14px; height: 14px;
+  animation: boltStarShake 0.4s ease-in-out infinite;
+}
+@keyframes boltStarShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+.dao-bolt {
+  font-size: 24px;
+  color: var(--dao-color, #EF5350);
+  filter: drop-shadow(0 0 12px var(--dao-color)) drop-shadow(0 0 24px var(--dao-color));
+  animation: boltFlash 0.2s ease-in-out infinite;
+  line-height: 1;
+}
+@keyframes boltFlash {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.4); filter: drop-shadow(0 0 20px var(--dao-color)) drop-shadow(0 0 40px var(--dao-color)); }
+}
+
+/* 旭日金星 */
+.dao-sun {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px; height: 64px;
+}
+.dao-sun-ray {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--dao-color, #00E5FF) 0%, transparent 70%);
+  box-shadow: 0 0 40px var(--dao-color, #00E5FF), 0 0 80px var(--dao-color);
+  animation: sunPulse 2s ease-in-out infinite;
+}
+@keyframes sunPulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+.dao-star-god {
+  position: absolute;
+  width: 22px; height: 22px;
+  background: #FFD700;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  box-shadow: 0 0 16px #FFD700, 0 0 32px #FFD700;
+  animation: godStarSpin 3s linear infinite;
+}
+@keyframes godStarSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* 徽章信息 */
+.badge-info { flex: 1; z-index: 1; }
+.badge-realm-name {
+  font-size: 24px; font-weight: 900;
+  color: var(--realm-color, #fff);
+  text-shadow: 0 0 20px var(--realm-glow), 0 0 40px var(--realm-glow);
+  letter-spacing: 2px;
+  margin-bottom: 2px;
+}
+.badge-stage {
+  font-size: 15px; font-weight: 600;
+  color: var(--realm-color, #fff);
+  opacity: 0.9;
+  text-shadow: 0 0 10px var(--realm-glow);
+}
+.badge-motto {
+  font-size: 12px;
+  color: rgba(255,255,255,0.25);
+  margin-top: 4px;
+  font-style: italic;
+  letter-spacing: 0.3px;
+}
+.badge-expand-icon {
+  font-size: 14px;
+  color: var(--realm-color, rgba(255,255,255,0.25));
+  z-index: 1;
+  align-self: flex-start;
+  margin-top: 6px;
+  transition: transform 0.3s;
+  opacity: 0.5;
+  filter: drop-shadow(0 0 4px var(--realm-glow));
+}
+
+/* ===== 展开内容 ===== */
+.cultivation-details {
+  padding: 20px 24px 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+  border-top: 1px solid rgba(255,255,255,0.03);
+  animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes slideDown {
+  from { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; }
+  to { opacity: 1; max-height: 1000px; padding-top: 20px; padding-bottom: 24px; }
+}
+
+.cultivation-section { margin-bottom: 20px; padding: 0; }
+.cultivation-section:last-child { margin-bottom: 0; }
+
+.section-title {
+  font-size: 10px; font-weight: 700;
+  color: var(--realm-color, rgba(255,255,255,0.25));
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  opacity: 0.7;
+  text-shadow: 0 0 8px var(--realm-glow);
+}
+
+/* 修为 */
+.score-display {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.score-value {
+  font-size: 52px; font-weight: 900;
+  background: linear-gradient(135deg, var(--realm-color, #fff) 0%, #fff 50%, var(--realm-color, #fff) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  filter: drop-shadow(0 0 20px var(--realm-glow)) drop-shadow(0 0 40px var(--realm-glow));
+  letter-spacing: -1px;
+}
+.score-label {
+  font-size: 14px;
+  color: var(--realm-color, rgba(255,255,255,0.35));
+  font-weight: 300;
+  opacity: 0.6;
+  text-shadow: 0 0 6px var(--realm-glow);
+}
+
+/* ===== 小境界·浮空灵符 ===== */
+.stage-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  padding: 4px 0;
+}
+.stage-segment {
+  flex: 1;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.stage-segment::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.stage-segment.active {
+  background: linear-gradient(145deg, var(--realm-color, #4FC3F7), color-mix(in srgb, var(--realm-color, #4FC3F7) 30%, #000));
+  border-color: var(--realm-color, #4FC3F7);
+  box-shadow: 0 0 25px var(--realm-glow), 0 0 50px var(--realm-glow), inset 0 1px 0 rgba(255,255,255,0.3);
+  transform: translateY(-4px) scale(1.03);
+  z-index: 2;
+}
+.stage-segment.active::before { opacity: 1; }
+.stage-segment.active::after {
+  content: '';
+  position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: conic-gradient(from 0deg at 50% 50%, transparent, rgba(255,255,255,0.12), transparent 50%, transparent, rgba(255,255,255,0.12), transparent);
+  animation: talismanGlow 3s linear infinite;
+}
+.stage-segment:not(.active):hover {
+  border-color: rgba(255,255,255,0.08);
+  transform: translateY(-2px);
+}
+@keyframes talismanGlow {
+  to { transform: rotate(360deg); }
+}
+.stage-seg-label {
+  font-size: 11px; font-weight: 700;
+  color: rgba(255,255,255,0.15);
+  white-space: nowrap;
+  position: relative; z-index: 1;
+  transition: all 0.3s;
+  letter-spacing: 0.5px;
+}
+.stage-segment.active .stage-seg-label {
+  color: #fff;
+  text-shadow: 0 0 12px rgba(255,255,255,0.8), 0 2px 8px rgba(0,0,0,0.3);
+  transform: scale(1.05);
+}
+
+/* 灵力进度条 */
+.progress-bar-container {
+  position: relative;
+  height: 8px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 4px;
+  overflow: visible;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255,255,255,0.02);
+}
+.progress-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 15px var(--realm-color), 0 0 30px var(--realm-color);
+  position: relative;
+  background: linear-gradient(90deg, var(--realm-color), #fff, var(--realm-color));
+}
+.progress-bar::after {
+  content: '';
+  position: absolute; right: -4px; top: -4px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 15px #fff, 0 0 30px var(--realm-color), 0 0 60px var(--realm-color);
+  animation: progressDot 1.2s ease-in-out infinite;
+}
+@keyframes progressDot {
+  0%, 100% { transform: scale(0.7); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+.progress-glow { display: none; }
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: rgba(255,255,255,0.25);
+}
+.god-status { text-align: center; padding: 16px; }
+.god-text {
+  font-size: 20px; font-weight: 800;
+  background: linear-gradient(135deg, #00E5FF, #FFD700, #00E5FF, #FFD700);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: godShimmer 2s linear infinite;
+}
+@keyframes godShimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* 灵力 */
+.spirit-speed {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.speed-level { font-size: 26px; font-weight: 900; text-shadow: 0 0 20px currentColor, 0 0 40px currentColor; letter-spacing: 2px; }
+.speed-value { font-size: 14px; color: var(--realm-color, rgba(255,255,255,0.5)); font-weight: 400; opacity: 0.7; text-shadow: 0 0 6px var(--realm-glow); }
+
+.speed-details { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.speed-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 10px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 8px; font-size: 12px; transition: all 0.25s;
+}
+.speed-item:hover {
+  border-color: var(--realm-color, rgba(255,255,255,0.06));
+  background: rgba(255,255,255,0.03);
+  box-shadow: 0 0 12px var(--realm-glow);
+}
+.speed-label { color: rgba(255,255,255,0.35); }
+.speed-num { font-weight: 700; color: var(--realm-color, #fff); text-shadow: 0 0 8px var(--realm-glow); }
+
+/* 功法 */
+.skills-list { display: flex; flex-direction: column; gap: 3px; }
+.skill-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px; border-radius: 8px; font-size: 13px;
+  transition: all 0.2s; border: 1px solid transparent;
+}
+.skill-item:hover {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.04);
+  transform: translateX(4px);
+  box-shadow: 0 0 8px var(--realm-glow);
+}
+.skill-icon { font-size: 14px; width: 22px; text-align: center; }
+.skill-name { flex: 1; font-weight: 500; color: rgba(255,255,255,0.8); }
+.skill-type {
+  font-size: 10px; padding: 2px 8px; border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.3px;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+.skill-count { font-size: 11px; color: rgba(255,255,255,0.2); min-width: 30px; text-align: right; }
+
+/* 统计 - 玻璃晶体卡片 */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.stat-item {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 16px 6px 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 14px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative; overflow: hidden;
+  backdrop-filter: blur(4px);
+}
+.stat-item::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--realm-color, rgba(255,255,255,0.1)), transparent);
+  opacity: 0.4;
+}
+.stat-item:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: var(--realm-color, rgba(255,255,255,0.06));
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4), 0 0 20px var(--realm-glow);
+}
+.stat-item:hover::before { opacity: 0.8; }
+.stat-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+.stat-value {
+  font-size: 24px; font-weight: 900;
+  color: var(--realm-color, #fff);
+  text-shadow: 0 0 15px var(--realm-glow), 0 0 30px var(--realm-glow);
+}
+
+/* ===== 时间线入口按钮 ===== */
+.timeline-btn {
+  width: 100%;
+  padding: 14px 16px;
+  margin-top: 8px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  color: var(--realm-color, rgba(255,255,255,0.5));
+  font-size: 13px; cursor: pointer;
+  transition: all 0.3s; font-family: inherit;
+  letter-spacing: 0.5px; position: relative; overflow: hidden;
+  font-weight: 600; text-shadow: 0 0 6px var(--realm-glow);
+}
+.timeline-btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.02));
+  opacity: 0; transition: opacity 0.3s;
+}
+.timeline-btn:hover {
+  border-color: var(--realm-color, #4FC3F7);
+  color: #fff;
+  box-shadow: 0 0 30px var(--realm-glow), inset 0 0 20px var(--realm-glow);
+  transform: translateY(-2px);
+  text-shadow: 0 0 12px var(--realm-glow), 0 0 24px var(--realm-glow);
+}
+.timeline-btn:hover::after { opacity: 1; }
+
+/* ===== 时间线弹窗 ===== */
+.timeline-overlay {
+  position: fixed; inset: 0; z-index: 9998;
+  background: rgba(0,0,0,0.85);
+  display: flex; align-items: center; justify-content: center;
+  animation: fadeIn 0.3s ease;
+  backdrop-filter: blur(12px);
+}
+.timeline-modal {
+  width: 560px; max-width: 92vw; max-height: 85vh;
+  background: linear-gradient(145deg, #0d0d1a, #0a0a18);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+.timeline-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+}
+.timeline-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.timeline-subtitle { font-size: 13px; color: rgba(255,255,255,0.35); }
+.timeline-summary { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 6px; }
+.timeline-summary strong { color: var(--realm-color, #4FC3F7); }
+.timeline-close-btn {
+  position: absolute; top: 16px; right: 16px;
+  background: none; border: none;
+  color: rgba(255,255,255,0.2); font-size: 18px;
+  cursor: pointer; padding: 4px 8px;
+  border-radius: 6px; transition: all 0.2s;
+}
+.timeline-close-btn:hover { color: #fff; background: rgba(255,255,255,0.06); }
+
+.timeline-body {
+  flex: 1; overflow-y: auto;
+  padding: 20px 24px;
+  position: relative;
+}
+.timeline-line {
+  position: absolute;
+  left: 40px; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.05), rgba(255,255,255,0.05), transparent);
+}
+.timeline-empty {
+  text-align: center; padding: 40px 0 20px;
+  color: rgba(255,255,255,0.25);
+}
+.timeline-empty-icon { font-size: 40px; display: block; margin-bottom: 12px; }
+.timeline-empty-hint { font-size: 12px; margin-top: 4px; opacity: 0.6; }
+
+.timeline-node {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.timeline-node:last-child { margin-bottom: 0; }
+
+.timeline-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--node-color, #888);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  z-index: 1;
+  transition: all 0.2s;
+  color: var(--node-color, #888);
+  background: rgba(0,0,0,0.4);
+}
+.timeline-node.breakthrough .timeline-dot {
+  animation: dotPulse 2s ease-in-out infinite;
+  background: var(--node-color);
+  color: #fff;
+}
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--node-color, #888); }
+  50% { box-shadow: 0 0 0 8px transparent; }
+}
+.timeline-node.current .timeline-dot {
+  width: 32px; height: 32px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.timeline-card {
+  flex: 1;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.timeline-card:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: var(--node-color, #888) !important;
+  transform: translateX(4px);
+}
+.timeline-card.current-card { cursor: default; }
+.timeline-card.current-card:hover {
+  background: rgba(255,255,255,0.02);
+  border-color: rgba(255,255,255,0.03) !important;
+  transform: none;
+}
+
+.timeline-card-top {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 6px;
+}
+.timeline-date { font-size: 11px; color: rgba(255,255,255,0.25); }
+.timeline-badge {
+  font-size: 10px; font-weight: 600;
+  padding: 1px 8px; border-radius: 8px;
+  color: #fff;
+}
+
+.timeline-card-main {
+  display: flex; align-items: center; gap: 6px;
+  flex-wrap: wrap;
+}
+.timeline-old { font-size: 13px; color: rgba(255,255,255,0.35); }
+.timeline-arrow { font-size: 14px; color: rgba(255,255,255,0.2); }
+.timeline-new { font-size: 15px; font-weight: 600; }
+
+.timeline-score {
+  font-size: 11px; color: rgba(255,255,255,0.2);
+  margin-top: 4px;
+}
+.timeline-gain { color: var(--node-color, #888); margin-left: 4px; }
+
+.timeline-replay-hint {
+  position: absolute;
+  right: 10px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.timeline-card:hover .timeline-replay-hint { opacity: 0.6; }
+
+/* ===== Level Up Animation ===== */
+.levelup-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.95);
+  cursor: pointer; overflow: hidden;
+}
+.levelup-overlay.enter { opacity: 0; }
+.levelup-overlay.active { opacity: 1; transition: opacity 0.5s ease; }
+.levelup-overlay.exit { opacity: 0; transition: opacity 0.8s ease; }
+
+.levelup-particle {
+  position: absolute;
+  border-radius: 50%;
+  animation: particleFloat 3s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes particleFloat {
+  0% { transform: translate(0,0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--drift-x), var(--drift-y)) scale(0); opacity: 0; }
+}
+
+.levelup-halo {
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  animation: haloExpand 3s ease-out infinite;
+  pointer-events: none;
+}
+.levelup-halo-2 {
+  position: absolute;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  animation: haloExpand 4s ease-out 0.5s infinite;
+  pointer-events: none;
+}
+@keyframes haloExpand {
+  0% { transform: scale(0.3); opacity: 0.8; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+.levelup-beam {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 200px; height: 40%;
+  pointer-events: none;
+  animation: beamRise 2s ease-out;
+}
+@keyframes beamRise {
+  from { height: 0; opacity: 0; }
+  to { height: 40%; opacity: 1; }
+}
+
+.levelup-content {
+  position: relative; text-align: center;
+  z-index: 1;
+  animation: contentRise 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes contentRise {
+  from { opacity: 0; transform: translateY(40px) scale(0.8); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.levelup-badge {
+  font-size: 42px; font-weight: 900;
+  letter-spacing: 6px;
+  text-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
+  margin-bottom: 12px;
+  animation: badgePulse 1s ease-in-out infinite;
+}
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.08); filter: brightness(1.3); }
+}
+
+.levelup-lightburst {
+  width: 120px; height: 2px;
+  margin: 0 auto 16px;
+  border-top: 1px solid;
+  animation: burstSpread 1.5s ease-out infinite;
+}
+@keyframes burstSpread {
+  0% { width: 0; opacity: 0; }
+  50% { width: 200px; opacity: 0.8; }
+  100% { width: 0; opacity: 0; }
+}
+
+.levelup-old-realm {
+  font-size: 18px;
+  color: rgba(255,255,255,0.4);
+  text-decoration: line-through;
+  margin-bottom: 6px;
+  opacity: 0;
+  animation: fadeSlideIn 0.5s ease 0.3s forwards;
+}
+.levelup-new-realm {
+  font-size: 48px; font-weight: 900;
+  text-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
+  margin-bottom: 6px;
+  opacity: 0;
+  animation: fadeSlideIn 0.5s ease 0.5s forwards;
+}
+.levelup-stage-name {
+  font-size: 24px;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 6px;
+  opacity: 0;
+  animation: fadeSlideIn 0.5s ease 0.7s forwards;
+}
+.levelup-subtitle {
+  font-size: 15px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeSlideIn 0.5s ease 0.9s forwards;
+}
+.levelup-score {
+  font-size: 14px;
+  color: rgba(255,255,255,0.35);
+  opacity: 0;
+  animation: fadeSlideIn 0.5s ease 1.1s forwards;
+}
+.levelup-score strong { color: #FFD700; }
+.levelup-gain { color: var(--anim-color, #4FC3F7); margin-left: 4px; }
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Cultivation Manual ===== */
+.manual-overlay {
+  position: fixed; inset: 0; z-index: 9998;
+  background: rgba(0,0,0,0.7);
+  display: flex; align-items: center; justify-content: center;
+  animation: fadeIn 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+.manual-modal {
+  width: 640px; max-width: 92vw; max-height: 85vh;
+  background: #0d0d1a;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  animation: scaleIn 0.25s ease;
+  color: rgba(255,255,255,0.8);
+}
+.manual-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.manual-title { font-size: 18px; font-weight: 700; color: #fff; }
+.manual-close {
+  background: none; border: none; color: rgba(255,255,255,0.3);
+  font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 6px;
+  transition: all 0.2s;
+}
+.manual-close:hover { color: #fff; background: rgba(255,255,255,0.06); }
+
+.manual-tabs {
+  display: flex; gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 0 12px;
+}
+.manual-tab {
+  padding: 10px 16px;
+  background: none; border: none;
+  color: rgba(255,255,255,0.4);
+  font-size: 13px; cursor: pointer;
+  font-family: inherit;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+.manual-tab:hover { color: rgba(255,255,255,0.7); }
+.manual-tab.active {
+  color: #fff;
+  border-bottom-color: var(--realm-color, #4FC3F7);
+}
+
+.manual-body {
+  flex: 1; overflow-y: auto;
+  padding: 20px;
+}
+.manual-section h4 {
+  font-size: 15px; font-weight: 600; color: #fff;
+  margin: 20px 0 10px;
+}
+.manual-section h4:first-child { margin-top: 0; }
+.manual-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+.manual-formula {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  color: #4FC3F7;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.manual-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.manual-table th, .manual-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  text-align: left;
+}
+.manual-table th {
+  color: rgba(255,255,255,0.4);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.manual-table td { color: rgba(255,255,255,0.7); }
+.manual-realm-name { font-weight: 600; }
+.manual-range { font-family: 'SF Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.5); }
+.manual-stages { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+.manual-dao {
+  font-size: 16px;
+  filter: drop-shadow(0 0 4px var(--c));
+}
+
+.manual-subsection {
+  background: rgba(255,255,255,0.02);
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 8px;
+}
+.manual-lianqi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+.manual-lianqi-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 6px;
+  font-size: 12px;
+}
+.ml-index {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: rgba(79,195,247,0.15);
+  color: #4FC3F7;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700;
+  flex-shrink: 0;
+}
+.ml-name { color: rgba(255,255,255,0.7); }
+
+.manual-dao-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+.manual-dao-card {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid;
+  border-radius: 10px;
+}
+.manual-dao-preview {
+  width: 48px; height: 48px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.manual-dao-info { flex: 1; min-width: 0; }
+.manual-dao-name { font-size: 14px; font-weight: 600; }
+.manual-dao-motto { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.manual-dao-pattern {
+  font-size: 10px; color: rgba(255,255,255,0.2);
+  margin-top: 2px;
+  font-family: 'SF Mono', monospace;
+}
+
+.manual-animation-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.manual-anim-card {
+  padding: 16px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+}
+.manual-anim-icon {
+  font-size: 18px; font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: 2px;
+}
+.manual-anim-title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+.manual-anim-detail {
+  list-style: none; padding: 0; margin: 0;
+}
+.manual-anim-detail li {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  padding: 2px 0;
+  line-height: 1.5;
+}
+.manual-anim-detail li::before {
+  content: '· ';
+  color: var(--realm-color, #4FC3F7);
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
   .app-sidebar {
@@ -1011,4 +2181,67 @@ a:hover {
   .app-content {
     padding: 16px;
   }
+
+  .cultivation-panel {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .cultivation-panel.collapsed {
+    max-width: 100%;
+  }
+
+  .welcome-title {
+    font-size: 22px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .speed-details {
+    grid-template-columns: 1fr;
+  }
+
+  .badge-rank {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .welcome-stats {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .welcome-stat-card {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .levelup-new-realm {
+    font-size: 32px;
+  }
+
+  .levelup-badge {
+    font-size: 28px;
+  }
+
+  .badge-realm-name {
+    font-size: 16px;
+  }
+
+  .dao-mark {
+    width: 36px;
+    height: 44px;
+  }
+  .dao-line { width: 26px; height: 3px; }
+  .dao-diamond-inner { width: 24px; height: 24px; }
+  .dao-star { width: 8px; height: 8px; }
+  .dao-star-lg { width: 10px; height: 10px; }
+  .dao-bar-connector { width: 10px; }
+
+  .timeline-modal { max-height: 90vh; }
+  .timeline-body { padding: 16px; }
 }

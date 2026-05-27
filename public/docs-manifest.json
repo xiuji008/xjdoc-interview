@@ -4,6 +4,40 @@
     "type": "directory",
     "children": [
       {
+        "name": "更新日志",
+        "type": "file",
+        "slug": "更新日志",
+        "title": "更新日志",
+        "emoji": "📝",
+        "tags": [
+          "更新",
+          "日志",
+          "记录"
+        ],
+        "category": "项目",
+        "description": "面试知识库·文档内容更新与变更记录",
+        "created": "",
+        "updated": ""
+      },
+      {
+        "name": "修炼指南",
+        "type": "file",
+        "slug": "修炼指南",
+        "title": "修炼指南",
+        "emoji": "📜",
+        "tags": [
+          "修仙",
+          "境界",
+          "道纹",
+          "修炼",
+          "成神"
+        ],
+        "category": "项目",
+        "description": "全栈成神之路·修仙系统完整说明，涵盖修为规则、境界一览、道纹图鉴与突破动画",
+        "created": "",
+        "updated": ""
+      },
+      {
         "name": "CONTRIBUTING",
         "type": "file",
         "slug": "CONTRIBUTING",
@@ -33,35 +67,6 @@
         "description": "面试知识库系统完整说明，涵盖所有功能点、技术架构和配置方式",
         "created": "",
         "updated": ""
-      },
-      {
-        "name": "ai",
-        "type": "directory",
-        "children": [
-          {
-            "name": "skills",
-            "type": "directory",
-            "children": [
-              {
-                "name": "机器学习基础",
-                "type": "file",
-                "slug": "ai/skills/机器学习基础",
-                "title": "机器学习基础概念",
-                "emoji": "🤖",
-                "tags": [
-                  "AI",
-                  "机器学习",
-                  "深度学习",
-                  "面试"
-                ],
-                "category": "AI/基础",
-                "description": "机器学习核心概念速查，包含监督学习、无监督学习、评估指标等",
-                "created": "2024-02-10T00:00:00.000Z",
-                "updated": "2024-03-15T00:00:00.000Z"
-              }
-            ]
-          }
-        ]
       },
       {
         "name": "java",
