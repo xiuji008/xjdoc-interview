@@ -1,79 +1,20 @@
 /**
- * GitHub Gist 阅读量计数器
+ * GitHub Gist 阅读量计数器（向后兼容）
  *
- * 数据存储在 GitHub Gist 中，通过 Gist API 读写。
- * Token 仅有 gist 权限，通过 Vite 环境变量注入，不写入源码。
- *
- * 本地开发：创建 .env 文件，参考 .env.example
- * 生产部署：在 GitHub Repo Secrets 中设置 VITE_GIST_ID 和 VITE_GIST_TOKEN
+ * 委托到统一 gistStore 模块。
+ * 不建议在新代码中直接使用此文件，请使用 src/utils/gistStore.js。
  */
 
-const GIST_ID = import.meta.env.VITE_GIST_ID || ''
-const GIST_TOKEN = import.meta.env.VITE_GIST_TOKEN || ''
+import { addPageView as storeAddPageView, isGistConfigured } from './gistStore'
 
-// 调试日志：确认环境变量是否被正确注入
-if (import.meta.env.DEV) {
-  console.log('[GistCounter] GIST_ID:', GIST_ID ? '已设置' : '未设置')
-  console.log('[GistCounter] GIST_TOKEN:', GIST_TOKEN ? '已设置' : '未设置')
-}
-
-const GIST_API = `https://api.github.com/gists/${GIST_ID}`
-const AUTH_HEADER = { Authorization: `token ${GIST_TOKEN}` }
-
-let gistFilename = null
-
-async function getFilename() {
-  if (gistFilename) return gistFilename
-  const res = await fetch(GIST_API, { headers: AUTH_HEADER })
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
-  const data = await res.json()
-  gistFilename = Object.keys(data.files)[0]
-  return gistFilename
-}
-
-async function fetchCounts() {
-  const res = await fetch(GIST_API, { headers: AUTH_HEADER })
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
-  const data = await res.json()
-  const filename = Object.keys(data.files)[0]
-  return JSON.parse(data.files[filename]?.content || '{}')
-}
-
-async function saveCounts(counts) {
-  const filename = await getFilename()
-  const res = await fetch(GIST_API, {
-    method: 'PATCH',
-    headers: {
-      ...AUTH_HEADER,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      files: { [filename]: { content: JSON.stringify(counts, null, 2) } },
-    }),
-  })
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
-}
-
+/** 检查 Gist 是否已配置 */
 export function isCounterConfigured() {
-  return !!(GIST_ID && GIST_TOKEN)
+  return isGistConfigured()
 }
 
 /**
- * 获取当前计数并递增
- * @param {string} slug  文档唯一标识
- * @param {number} step  每次递增步长（默认 4）
+ * 获取当前计数并递增（委托到 gistStore）
  */
 export async function addPageView(slug, step = 4) {
-  if (!slug || !isCounterConfigured()) return 0
-
-  try {
-    const counts = await fetchCounts()
-    const current = (counts[slug] || 0) + step
-    counts[slug] = current
-    await saveCounts(counts)
-    return current
-  } catch (err) {
-    console.warn('[GistCounter] 操作失败:', err)
-    return 0
-  }
+  return storeAddPageView(slug, step)
 }

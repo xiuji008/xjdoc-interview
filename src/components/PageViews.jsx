@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect, useRef } from 'react'
-import { addPageView, isCounterConfigured } from '../utils/gistCounter'
+import { addPageView, isGistConfigured } from '../utils/gistStore'
 
 const STEP = 1
 
@@ -18,7 +18,7 @@ export default function PageViews({ slug }) {
     if (!slug || countedRef.current) return
     countedRef.current = true
 
-    if (isCounterConfigured()) {
+    if (isGistConfigured()) {
       addPageView(slug, STEP)
         .then((val) => {
           if (val > 0) setCount(val)

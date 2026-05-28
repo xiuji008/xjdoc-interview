@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route, Navigate, useParams, useNavigate } from 'react-router-dom'
 import Sidebar from './components/Sidebar'
 import ArticleView from './components/ArticleView'
@@ -6,6 +6,10 @@ import EmojiPicker from './components/EmojiPicker'
 import AboutModal from './components/AboutModal'
 import CultivationPanel from './components/CultivationPanel'
 import CultivationManual from './components/CultivationManual'
+import TagExplorer from './components/TagExplorer'
+import TagStats from './components/TagStats'
+import GistManager from './components/GistManager'
+import MarkdownRenderer from './components/MarkdownRenderer'
 import { useDocManifest } from './hooks/useDocManifest'
 
 export default function App() {
@@ -15,6 +19,8 @@ export default function App() {
   const [emojiOpen, setEmojiOpen] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
   const [manualOpen, setManualOpen] = useState(false)
+  const [gistManagerOpen, setGistManagerOpen] = useState(false)
+  const [changelogOpen, setChangelogOpen] = useState(false)
 
   if (loading) {
     return (
@@ -53,6 +59,20 @@ export default function App() {
         <div className="header-actions">
           <button
             className="header-btn"
+            onClick={() => navigate('/tags')}
+            title="标签道藏"
+          >
+            🏷️ <span className="header-btn-label">标签道藏</span>
+          </button>
+          <button
+            className="header-btn"
+            onClick={() => navigate('/tag-stats')}
+            title="标签道统"
+          >
+            📊 <span className="header-btn-label">标签道统</span>
+          </button>
+          <button
+            className="header-btn"
             onClick={() => setManualOpen(true)}
             title="修炼说明书"
           >
@@ -79,6 +99,20 @@ export default function App() {
           </a>
           <button
             className="header-btn"
+            title="更新记录"
+            onClick={() => setChangelogOpen(true)}
+          >
+            📋 <span className="header-btn-label">更新记录</span>
+          </button>
+          <button
+            className="header-btn"
+            title="Gist 数据管理"
+            onClick={() => setGistManagerOpen(true)}
+          >
+            ⚙️ <span className="header-btn-label">灵蕴天碑</span>
+          </button>
+          <button
+            className="header-btn"
             onClick={() => setAboutOpen(true)}
             title="关于作者"
           >
@@ -90,6 +124,8 @@ export default function App() {
       <EmojiPicker isOpen={emojiOpen} onClose={() => setEmojiOpen(false)} />
       <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} />
       <CultivationManual isOpen={manualOpen} onClose={() => setManualOpen(false)} />
+      {gistManagerOpen && <GistManagerModal onClose={() => setGistManagerOpen(false)} />}
+      {changelogOpen && <ChangelogModal onClose={() => setChangelogOpen(false)} />}
 
       <div className="app-body">
         <aside className={`app-sidebar ${sidebarOpen ? 'open' : 'closed'}`}>
@@ -130,6 +166,22 @@ export default function App() {
               }
             />
             <Route path="/docs/:slug" element={<ArticleViewWrapper manifest={manifest} />} />
+            <Route
+              path="/tags"
+              element={
+                <div className="welcome-page">
+                  <TagExplorer tree={manifest?.tree} />
+                </div>
+              }
+            />
+            <Route
+              path="/tag-stats"
+              element={
+                <div className="welcome-page">
+                  <TagStats tree={manifest?.tree} />
+                </div>
+              }
+            />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
@@ -151,4 +203,49 @@ function countAllFiles(tree) {
     else if (node.children) count += countAllFiles(node)
   }
   return count
+}
+
+function ChangelogModal({ onClose }) {
+  const [content, setContent] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    fetch('./CHANGELOG.md')
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text() })
+      .then((text) => { setContent(text); setLoading(false) })
+      .catch((e) => { setError(e.message); setLoading(false) })
+  }, [])
+
+  return (
+    <div className="changelog-overlay" onClick={onClose}>
+      <div className="changelog-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="changelog-header">
+          <span>📋 系统更新记录</span>
+          <button className="changelog-close" onClick={onClose}>✕</button>
+        </div>
+        <div className="changelog-body">
+          {loading && <div className="changelog-loading"><div className="loading-spinner" /><p>加载中...</p></div>}
+          {error && <div className="changelog-error"><p>加载失败: {error}</p></div>}
+          {content && <div className="changelog-content"><MarkdownRenderer content={content} /></div>}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function GistManagerModal({ onClose }) {
+  return (
+    <div className="gist-overlay" onClick={onClose}>
+      <div className="gist-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="gist-modal-header">
+          <span>⚙️ 灵蕴天碑·Gist 数据管理</span>
+          <button className="gist-modal-close" onClick={onClose}>✕</button>
+        </div>
+        <div className="gist-modal-body">
+          <GistManager />
+        </div>
+      </div>
+    </div>
+  )
 }
