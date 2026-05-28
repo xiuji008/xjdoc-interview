@@ -188,12 +188,6 @@ export default function GistManager() {
           <span style={{ marginLeft: 8, color: '#f44336', fontWeight: 600 }}>🔓 管理模式已激活</span>
         )}
       </p>
-      {!showActions && (
-        <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 16, textAlign: 'center' }}>
-          连续点击标题 3 次解锁管理功能
-        </p>
-      )}
-
       {msg && <div className="gist-manager-msg">{msg}</div>}
 
       {loading && (
