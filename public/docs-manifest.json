@@ -69,6 +69,33 @@
         "updated": ""
       },
       {
+        "name": "项目管理",
+        "type": "directory",
+        "children": [
+          {
+            "name": "敏捷",
+            "type": "directory",
+            "children": [
+              {
+                "name": "用户故事",
+                "type": "file",
+                "slug": "项目管理/敏捷/用户故事",
+                "title": "用户故事",
+                "emoji": "📝",
+                "tags": [
+                  "敏捷",
+                  "用户故事"
+                ],
+                "category": "项目管理/敏捷",
+                "description": "面试知识库·项目管理·敏捷·用户故事",
+                "created": "2026-05-30T00:00:00.000Z",
+                "updated": "2026-05-30T00:00:00.000Z"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "java",
         "type": "directory",
         "children": [
